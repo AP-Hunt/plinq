@@ -26,8 +26,8 @@ class plinq {
 
 	/**
 	 * Dispatches method calls with the correct arguments.
-	 * Used by plinqWrapper to pass function calls across without
-	 * having to know about the arguments.
+	 * Used by __callStatic to direct a "static" function call
+	 * without having to know about the arguments.
 	 * 		Eg $wrapper->where($expr);
 	 * @param 	$method
 	 * @param 	$args
@@ -111,6 +111,30 @@ class plinq {
 		}
 
 		return $plinq;
+	}
+
+	/**
+	 * Wraps an input in a plinqWrapper
+	 * @param 	array 	$input
+	 *
+	 * @return 	plinqArrayWrapper
+	 */
+	public function on(Array $input)
+	{
+		$p = plinq::thisOrNew($this);
+		return new plinqArrayWrapper($p, $input);
+	}
+
+	/**
+	 * Alias of on
+	 * @param 	array 	$input
+	 *
+	 * @return 	plinqArrayWrapper
+	 */
+	public function with(Array $input)
+	{
+		$p = plinq::thisOrNew($this);
+		return $p->on($input);
 	}
 
 	/**
