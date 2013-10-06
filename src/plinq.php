@@ -38,6 +38,11 @@ class plinq {
 	{
 		$lowerMethod = strtolower($method);
 		switch($lowerMethod){
+			//Method of signature x(input)
+			case "on";
+			case "with";
+				return plinq::$lowerMethod($args[0]);
+
 			//Methods of signature x(input, expression)
 			case "where";
 			case "count";
