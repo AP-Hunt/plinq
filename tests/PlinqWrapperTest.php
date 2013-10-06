@@ -60,18 +60,4 @@ class TestPlinqWrapper extends PHPUnit_Framework_TestCase
 
 		$this->assertEquals($expected, array_values($output->toArray()));
 	}
-
-	public function testCallingPlinqMethodsDelegatesToPlinq()
-	{
-		$expected = [1];
-		$this->plinqMock->expects($this->any())
-				  		->method("__call")
-				  		->will($this->returnValue(new \plinq\plinqArrayWrapper(new plinq\plinq(), $expected)));
-
-		$input = [1, 2, 3];
-		$wrapper = new \plinq\plinqArrayWrapper($this->plinqMock, $input);
-		$actual = $wrapper->where($this->evenNumberExpression);
-
-		$this->assertEquals($expected, array_values($actual->toArray()));
-	}
 }

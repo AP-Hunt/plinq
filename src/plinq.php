@@ -52,6 +52,53 @@ class plinq {
 	}
 
 	/**
+	 * Partially applies the given method, binding the input parameter
+	 * @param 	$methodName
+	 * @param 	$input
+	 *
+	 * @return 	callable
+	 */
+	public function bindInputOn($methodName, $input)
+	{
+		return function() use($methodName, $input){
+			$p = plinq::thisOrNew($this);
+			$numArgs = func_num_args();
+			$args = func_get_args()[0];
+			switch($numArgs)
+			{
+				case 0:
+					return $p->$methodName($input);
+					break;
+
+				case 1:
+					return $p->$methodName($input, $args[0]);
+					break;
+
+				case 2:
+					return $p->$methodName($input, $args[0], $args[1]);
+					break;
+
+				case 3:
+					return $p->$methodName($input, $args[0], $args[1], $args[2]);
+					break;
+
+				case 4:
+					return $p->$methodName($input, $args[0], $args[1], $args[2], $args[3]);
+					break;
+
+				case 5:
+					return $p->$methodName($input, $args[0], $args[1], $args[2], $args[3], $args[4]);
+					break;
+
+				default:
+					$combinedArgs = array_merge(array($input), $args);
+					return call_user_func_array(array($p, $methodName), $combinedArgs);
+					break;
+			}
+		};
+	}
+
+	/**
 	 * Utility method.
 	 * Used to make sure wrappers are passed an instance of plinq when $this isn't plinq.
 	 * @param 	$plinq
