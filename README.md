@@ -1,4 +1,4 @@
-plinq
+plinq (PHP >= 5.4.0)
 =====
 
 A php library for working with arrays, inspired by .NET's LINQ. Currently supports a small set of actions, but will be expanded. Also supports *lazy evaluation*.
