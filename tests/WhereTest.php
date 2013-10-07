@@ -18,16 +18,16 @@ class WhereTest extends PHPUnit_Framework_TestCase {
 		$expectedOutput = [2, 4, 6];
 
 		$actual = plinq::where($input, $this->evenNumberExpression);
-		$this->assertEquals($expectedOutput, array_values((array)$actual));
+		$this->assertEquals($expectedOutput, array_values($actual));
 	}
 
-	public function testResultIsPlinqWrapper()
+	public function testResultIsNotPlinqWrapperWhenChainDoesntStartWithOn()
 	{
 		$input = [1, 2, 3, 4, 5, 6];
 		$expected = 'plinq\plinqWrapper';
 
 		$actual = plinq::where($input, $this->evenNumberExpression);
 
-		$this->assertInstanceOf($expected, $actual);
+		$this->assertNotInstanceOf($expected, $actual);
 	}
 }

@@ -17,6 +17,19 @@ class SelectTest extends PHPUnit_Framework_TestCase {
 
 		$actual = plinq::select($input, $doublingSelection);
 
-		$this->assertEquals($expected, array_values($actual->toArray()));
+		$this->assertEquals($expected, $actual);
+	}
+
+	public function testSelectReturnsArrayWhenChainDoesntStartWithOn()
+	{
+		$input = [1, 2, 3];
+		$expected = "array";
+		$doublingSelection = function($key, $value){
+			return $value * 2;
+		};
+
+		$actual = plinq::select($input, $doublingSelection);
+
+		$this->assertInternalType($expected, $actual);
 	}
 }

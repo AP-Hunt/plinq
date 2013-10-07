@@ -5,7 +5,6 @@ namespace plinq;
 use plinq\plinqArrayWrapper;
 
 require_once("plinqWrapper.php");
-require_once("plinqArrayWrapper.php");
 
 class plinq {
 	public function __construct(){}
@@ -127,7 +126,7 @@ class plinq {
 	public function on(Array $input)
 	{
 		$p = plinq::thisOrNew($this);
-		return new plinqArrayWrapper($p, $input);
+		return new plinqWrapper($p, $input);
 	}
 
 	/**
@@ -152,7 +151,7 @@ class plinq {
 	public function where(Array $input, Callable $expr)
 	{
 		$p = plinq::thisOrNew($this);
-		return new \plinq\plinqArrayWrapper($p, array_filter($input, $expr));
+		return array_filter($input, $expr);
 	}
 
 	/**
@@ -167,8 +166,8 @@ class plinq {
 	{
 		if($expr != null)
 		{
-			$p = plinq::thisOrNew($this);
-			return $p->where($input, $expr)->count();
+			$filteredInput = array_filter($input, $expr);
+			return count($filteredInput);
 		}
 		else
 		{
@@ -193,7 +192,7 @@ class plinq {
 			$results[] = $r;
 		}
 
-		return new plinqArrayWrapper($p, $results);
+		return $results;
 	}
 
 	/**

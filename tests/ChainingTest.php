@@ -22,7 +22,8 @@ class ChainingTest extends PHPUnit_Framework_TestCase {
 		$input = [1, 2, 3, 4, 5, 6];
 		$expected = [4, 8, 12];
 
-		$actual = plinq::where($input, $this->evenNumberExpression)
+		$actual = plinq::with($input)
+			           ->where($this->evenNumberExpression)
 					   ->select($this->doublingExpression);
 
 		$this->assertEquals($expected, array_values($actual->toArray()));
