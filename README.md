@@ -19,10 +19,14 @@ A php library for working with arrays, inspired by .NET's LINQ. Currently suppor
     }
 
     $input = [1, 2, 3, 4, 5, 6];
-
+    
+    //plinq can perform chains of actions
     $filtered = plinq::with($input)
                      ->where($numIsEven)
                      ->select($doubleNum);
+                     
+    //Or a single action
+    $numOfElements = plinq::count($input);
                      
 The result of a plinq chain is a **plinqWrapper** object. This can be manipulated like an array but, crucially, will not be recognised as one by functions hinting an array. To get around this, either cast the result to an array or call toArray.
     
