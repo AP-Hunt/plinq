@@ -7,6 +7,9 @@ use plinq\plinqArrayWrapper;
 require_once("plinqWrapper.php");
 
 class plinq {
+	/** Flags  **/
+	public static $MAINTAIN_KEY = TRUE;
+
 	public function __construct(){}
 
 	/**
@@ -215,5 +218,51 @@ class plinq {
 		}
 
 		return $acc;
+	}
+
+	/**
+	 * Returns the value of the first key in the input
+	 * @param 	array 	$input
+	 *
+	 * @return 	array	Returns empty array if the array is empty
+	 */
+	public function head(Array $input, $retainKey = false)
+	{
+		if(empty($input))
+		{
+			return array();
+		}
+
+		if(!$retainKey)
+		{
+			$keys = array_keys($input);
+			return array($input[$keys[0]]);
+		}
+		else
+		{
+			$keys = array_keys($input);
+			$firstKey = $keys[0];
+
+			$value = $input[$firstKey];
+
+			return array($firstKey => $value);
+		}
+
+	}
+
+	/**
+	 * Removes the first element of the input and returns the rest
+	 * @param 	array 	$input
+	 *
+	 * @return 	array	Returns an empty array if the input contains 0 or 1 elements;
+	 */
+	public function tail(Array $input)
+	{
+		if(empty($input))
+		{
+			return array();
+		}
+
+		return array_slice($input, 1);
 	}
 }

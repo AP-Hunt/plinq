@@ -67,13 +67,4 @@ class lazyPlinq extends plinq {
 		$lp = lazyPlinq::thisOrNew($this);
 		return new lazyPlinqWrapper($lp, $input);
 	}
-
-//	public function where(array $input, callable $expr)
-//	{
-//		$action = function($input) use($expr)
-//		{
-//			return parent::where($input, $expr);
-//		};
-//		return $action;
-//	}
 }

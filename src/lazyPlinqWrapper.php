@@ -6,7 +6,7 @@ class lazyPlinqWrapper {
 	private $wrapped;
 	private $lazyPlinq;
 
-	private $evaluators = [];
+	private $evaluators = array();
 
 	public function __construct(lazyPlinq $instance, $value)
 	{
