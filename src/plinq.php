@@ -316,6 +316,56 @@ class plinq {
 		return $max;
 	}
 
+	/**
+	 * @param 	array    	$input
+	 * @param 	callable 	$comparator Comparison callback - callback($currentMin, $compareTo):bool - should return true if $compareTo < $currentMin
+	 *
+	 * @return	mixed	Null on empty input, smallest value otherwise
+	 * @throws 	\InvalidArgumentException	Thrown if the input contains anything other than numbers, but provides no comparator function
+	 */
+	public function min(Array $input, callable $comparator = null)
+	{
+		if(empty($input))
+		{
+			return null;
+		}
+
+		$isCallable = is_callable($comparator);
+		$useComparator = false;
+		if(!self::arrayAllNumbers($input))
+		{
+			if(!$isCallable)
+			{
+				throw new \InvalidArgumentException("Input contains values other than numbers, but no comparator provided to compare them");
+			}
+			else
+			{
+				$useComparator = true;
+			}
+		}
+
+		$min = $input[0];
+		for($i = 1; $i <= count($input)-1; $i++)
+		{
+			$j = $input[$i];
+			if($useComparator)
+			{
+				if($comparator($min, $j)){
+					$min = $j;
+				}
+			}
+			else
+			{
+				if($j < $min)
+				{
+					$min = $j;
+				}
+			}
+		}
+
+		return $min;
+	}
+
 	private static function arrayAllNumbers(Array $input)
 	{
 		foreach($input as $k => $v)
