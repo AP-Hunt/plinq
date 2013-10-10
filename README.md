@@ -13,6 +13,8 @@ A php library for working with arrays, inspired by .NET's LINQ. Currently suppor
 * **aggregate**   -   Applies an accumulator function over each element in the input, returning the final accumulator value
 * **head**        -   Returns the first element in the input (optionally returns the key value pair)
 * **tail**        -   Returns all but the first element in the input
+* **max**         -   Returns the largest element in the input. If the input contains not only numbers, a comparator function must be provided.
+* **min**         -   Returns the smallest element in the input. If the input contains not only numbers, a comparator function must be provided.
 
 ### Example
 
