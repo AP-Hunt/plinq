@@ -265,4 +265,68 @@ class plinq {
 
 		return array_slice($input, 1);
 	}
+
+	/**
+	 * @param 	array    	$input
+	 * @param 	callable 	$comparator Comparison callback - callback($currentMax, $compareTo):bool - should return true if $compareTo > $currentMax
+	 *
+	 * @return	mixed	Null on empty input, largest value otherwise
+	 * @throws 	\InvalidArgumentException	Thrown if the input contains anything other than numbers, but provides no comparator function
+	 */
+	public function max(Array $input, callable $comparator = null)
+	{
+		if(empty($input))
+		{
+			return null;
+		}
+
+		$isCallable = is_callable($comparator);
+		$useComparator = false;
+		if(!self::arrayAllNumbers($input))
+		{
+			if(!$isCallable)
+			{
+				throw new \InvalidArgumentException("Input contains values other than numbers, but no comparator provided to compare them");
+			}
+			else
+			{
+				$useComparator = true;
+			}
+		}
+
+		$max = $input[0];
+		for($i = 1; $i <= count($input)-1; $i++)
+		{
+			$j = $input[$i];
+			if($useComparator)
+			{
+				if($comparator($max, $j)){
+					$max = $j;
+				}
+			}
+			else
+			{
+				if($j > $max)
+				{
+					$max = $j;
+				}
+			}
+		}
+
+		return $max;
+	}
+
+	private static function arrayAllNumbers(Array $input)
+	{
+		foreach($input as $k => $v)
+		{
+			if(gettype($v) != "integer"
+			&& gettype($v) != "double")
+			{
+				return false;
+			}
+		}
+
+		return true;
+	}
 }
