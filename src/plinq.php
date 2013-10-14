@@ -267,6 +267,7 @@ class plinq {
 	}
 
 	/**
+	 * Finds the largest value in the input
 	 * @param 	array    	$input
 	 * @param 	callable 	$comparator Comparison callback - callback($currentMax, $compareTo):bool - should return true if $compareTo > $currentMax
 	 *
@@ -317,6 +318,7 @@ class plinq {
 	}
 
 	/**
+	 * Finds the smallest value in the input
 	 * @param 	array    	$input
 	 * @param 	callable 	$comparator Comparison callback - callback($currentMin, $compareTo):bool - should return true if $compareTo < $currentMin
 	 *
@@ -364,6 +366,52 @@ class plinq {
 		}
 
 		return $min;
+	}
+
+	/**
+	 * Finds if every element in the input matches the expression
+	 * @param array    	$input	The input to test
+	 * @param callable 	$expr	The expression which all elements are tested against
+	 *
+	 * @return bool		True if all elements match the expression
+	 */
+	public function all(Array $input, Callable $expr)
+	{
+		foreach($input as $k => $v)
+		{
+			if(!$expr($k, $v))
+			{
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+	/**
+	 * Finds if any element in the input matches the expression.
+	 * If no expression is provided, finds if the input has any elements.
+	 * @param array    	$input	The input to test
+	 * @param callable 	$expr	The expression to test with
+	 *
+	 * @return bool	True if any element matches the expression, or true if the input is not empty
+	 */
+	public function any(Array $input, Callable $expr = null)
+	{
+		if(!is_callable($expr))
+		{
+			return !empty($input);
+		}
+
+		foreach($input as $k => $v)
+		{
+			if($expr($k, $v))
+			{
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	private static function arrayAllNumbers(Array $input)
