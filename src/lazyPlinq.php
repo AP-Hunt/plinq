@@ -62,9 +62,9 @@ class lazyPlinq extends plinq {
 		};
 	}
 
-	public function on(array $input)
+	public static function on(array $input)
 	{
-		$lp = lazyPlinq::thisOrNew($this);
+		$lp = new lazyPlinq();
 		return new lazyPlinqWrapper($lp, $input);
 	}
 }

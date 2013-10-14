@@ -28,10 +28,29 @@ class plinqWrapper extends \ArrayObject implements IteratorAggregate, ArrayAcces
 		return $this->wrapped;
 	}
 
+	/**
+	 * Overrides ArrayObject functionality to use plinq
+	 * @return $this|int
+	 */
+	public function count()
+	{
+		$args = func_get_args();
+		if(!$args)
+		{
+			$args = array();
+		}
+		return $this->__call("count", $args);
+	}
+
 	public function __call($method, $args)
 	{
 		$boundFunc = $this->plinq->bindInputOn($method, $this->wrapped);
 		$this->wrapped = $boundFunc($args);
+
+		if(!is_array($this->wrapped))
+		{
+			return $this->wrapped;
+		}
 
 		return $this;
 	}

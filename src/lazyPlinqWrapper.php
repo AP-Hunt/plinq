@@ -39,6 +39,11 @@ class lazyPlinqWrapper {
 			}
 		}
 
+		if(!is_array($value))
+		{
+			return $value;
+		}
+
 		return (array)$value;
 	}
 }

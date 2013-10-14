@@ -29,4 +29,17 @@ class ChainingTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals($expected, array_values($actual->toArray()));
 	}
 
+	public function testEndingChainOnCallReturningScalarValueReturnsValueNotArray()
+	{
+		$input = [1, 2, 3, 4, 5, 6];
+		$expected = 3;
+
+		$actual = plinq::with($input)
+			 		   ->where($this->evenNumberExpression)
+					   ->count();
+
+		$this->assertInternalType("integer", $actual);
+		$this->assertEquals($expected, $actual);
+	}
+
 }

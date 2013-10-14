@@ -39,23 +39,18 @@ class plinq {
 	public function __call($method, $args)
 	{
 		$lowerMethod = strtolower($method);
-		switch($lowerMethod){
-			//Method of signature x(input)
-			case "on";
-			case "with";
-				return plinq::$lowerMethod($args[0]);
 
-			//Methods of signature x(input, expression)
-			case "where";
-			case "count";
-			case "select";
-				return plinq::$lowerMethod($args[0], $args[1]);
-				break;
-
-			//Methods of signature x(input, y, expression)
-			case "aggregate";
-				return plinq::$lowerMethod($args[0], $args[1], $args[2]);
+		if(empty($args))
+		{
+			throw new \InvalidArgumentException("No input supplied");
 		}
+
+		// Bind the input
+		$input = $args[0];
+		$bound = $this->bindInputOn($lowerMethod, $input);
+
+		$funcArgs = array_slice($args, 1);
+		return $bound($funcArgs);
 	}
 
 	/**
@@ -67,39 +62,37 @@ class plinq {
 	 */
 	public function bindInputOn($methodName, $input)
 	{
-		return function() use($methodName, $input){
-			$p = plinq::thisOrNew($this);
-			$numArgs = func_num_args();
-			$args = func_get_args()[0];
+		return function($args) use($methodName, $input){
+			$numArgs = count($args);
 			switch($numArgs)
 			{
 				case 0:
-					return $p->$methodName($input);
+					return $this->$methodName($input);
 					break;
 
 				case 1:
-					return $p->$methodName($input, $args[0]);
+					return $this->$methodName($input, $args[0]);
 					break;
 
 				case 2:
-					return $p->$methodName($input, $args[0], $args[1]);
+					return $this->$methodName($input, $args[0], $args[1]);
 					break;
 
 				case 3:
-					return $p->$methodName($input, $args[0], $args[1], $args[2]);
+					return $this->$methodName($input, $args[0], $args[1], $args[2]);
 					break;
 
 				case 4:
-					return $p->$methodName($input, $args[0], $args[1], $args[2], $args[3]);
+					return $this->$methodName($input, $args[0], $args[1], $args[2], $args[3]);
 					break;
 
 				case 5:
-					return $p->$methodName($input, $args[0], $args[1], $args[2], $args[3], $args[4]);
+					return $this->$methodName($input, $args[0], $args[1], $args[2], $args[3], $args[4]);
 					break;
 
 				default:
 					$combinedArgs = array_merge(array($input), $args);
-					return call_user_func_array(array($p, $methodName), $combinedArgs);
+					return call_user_func_array(array($this, $methodName), $combinedArgs);
 					break;
 			}
 		};
@@ -126,9 +119,9 @@ class plinq {
 	 *
 	 * @return 	plinqArrayWrapper
 	 */
-	public function on(Array $input)
+	public static function on(Array $input)
 	{
-		$p = plinq::thisOrNew($this);
+		$p = new plinq();
 		return new plinqWrapper($p, $input);
 	}
 
@@ -138,10 +131,9 @@ class plinq {
 	 *
 	 * @return 	plinqArrayWrapper
 	 */
-	public function with(Array $input)
+	public static function with(Array $input)
 	{
-		$p = plinq::thisOrNew($this);
-		return $p->on($input);
+		return plinq::on($input);
 	}
 
 	/**
@@ -153,7 +145,6 @@ class plinq {
 	 */
 	public function where(Array $input, Callable $expr)
 	{
-		$p = plinq::thisOrNew($this);
 		return array_filter($input, $expr);
 	}
 
@@ -188,7 +179,6 @@ class plinq {
 	public function select(Array $input, Callable $expr)
 	{
 		$results = [];
-		$p = plinq::thisOrNew($this);
 
 		foreach($input as $k => $v){
 			$r = $expr($k, $v);
