@@ -409,6 +409,14 @@ class plinq {
 		return false;
 	}
 
+	/**
+	 * Finds the first element in the input matching the expression
+	 * @param 	array    	$input		The input to test
+	 * @param 	callable 	$expr		The expression to match against
+	 * @param 	bool     	$retainKey	Whether to return the key with the result
+	 *
+	 * @return array|null
+	 */
 	public function first(Array $input, Callable $expr, $retainKey = false)
 	{
 		if(empty($input))
