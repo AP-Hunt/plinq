@@ -40,6 +40,11 @@ class plinq {
 	{
 		$lowerMethod = strtolower($method);
 
+		if(!method_exists($this, $lowerMethod))
+		{
+			throw new \BadMethodCallException();
+		}
+
 		if(empty($args))
 		{
 			throw new \InvalidArgumentException("No input supplied");
