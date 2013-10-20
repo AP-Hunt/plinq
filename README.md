@@ -15,6 +15,9 @@ A php library for working with arrays, inspired by .NET's LINQ. Currently suppor
 * **tail**        -   Returns all but the first element in the input
 * **max**         -   Returns the largest element in the input. If the input contains not only numbers, a comparator function must be provided.
 * **min**         -   Returns the smallest element in the input. If the input contains not only numbers, a comparator function must be provided.
+* **all**         -   Finds if all elements in the input match the expression
+* **any**         -   Finds if any element in the input matches the expression. If no expression is provided, returns true if the input is not empty.
+* **first**       -   Returns the first element in the input which matches the expression, otherwise null.
 
 ### Example
 
