@@ -409,6 +409,31 @@ class plinq {
 		return false;
 	}
 
+	public function first(Array $input, Callable $expr, $retainKey = false)
+	{
+		if(empty($input))
+		{
+			return null;
+		}
+
+		foreach($input as $k => $v)
+		{
+			if($expr($k, $v))
+			{
+				if($retainKey)
+				{
+					return array($k => $v);
+				}
+				else
+				{
+					return $v;
+				}
+			}
+		}
+
+		return null;
+	}
+
 	private static function arrayAllNumbers(Array $input)
 	{
 		foreach($input as $k => $v)
