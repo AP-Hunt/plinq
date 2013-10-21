@@ -441,6 +441,31 @@ class plinq {
 		return null;
 	}
 
+	/**
+	 * Finds all distinct elements in the input
+	 * @param 	array 	$input
+	 *
+	 * @return 	array
+	 */
+	public function distinct(Array $input, Callable $expr = null)
+	{
+		$results = array();
+		foreach($input as $k => $v)
+		{
+			$val = $v;
+			if($expr != null){
+				$val = $expr($k, $v);
+			}
+
+			if(!in_array($val, $results))
+			{
+				$results[] = $val;
+			}
+		}
+
+		return $results;
+	}
+
 	private static function arrayAllNumbers(Array $input)
 	{
 		foreach($input as $k => $v)
