@@ -55,15 +55,7 @@ print "==== The price of each genre book ==== \r\n";
 
 $allPrices = plinq::with($books)
 				  // Get all distinct genres
-				  ->aggregate(array(), function($acc, $k, $v)
-				    {
-						if(!in_array(strtolower($v->genre), $acc))
-						{
-							$acc[] = strtolower($v->genre);
-						}
-
-						return $acc;
-					})
+				  ->distinct(function($k, $v){ return strtolower($v->genre);})
 				  // Get the prices of each
 				  ->aggregate(array(), function($acc, $k, $v) use($books, $sumAggregate)
 				 	{
