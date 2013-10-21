@@ -206,8 +206,7 @@ class plinq {
 	{
 		$acc = $seed;
 
-		$arr = array_slice($input, 1);
-		foreach($arr as $k => $v)
+		foreach($input as $k => $v)
 		{
 			$acc = $expr($acc, $k, $v);
 		}

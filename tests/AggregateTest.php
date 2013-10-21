@@ -7,7 +7,7 @@ class AggregateTest extends PHPUnit_Framework_TestCase {
 	public function  __construct(){
 	}
 
-	public function testFunctionAppliedToEachElementExcludingTheFirst()
+	public function testFunctionAppliedToEachElement()
 	{
 		$input = [1, 2, 3, 4, 5];
 		$seed = 0;
@@ -15,7 +15,7 @@ class AggregateTest extends PHPUnit_Framework_TestCase {
 			$acc += $val;
 			return $acc;
 		};
-		$expected = 14;
+		$expected = 15;
 
 		$actual = plinq::aggregate($input, $seed, $accumulator);
 
