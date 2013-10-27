@@ -1,6 +1,6 @@
 {
-    "name": "plinq/plINQ",
-    "description": "A LINQ-like collection manipulations library",
+    "name": "andybursh/plinq",
+    "description": "Functional style operations on arrays",
     "minimum-stability": "dev",
     "authors": [
         {
@@ -13,6 +13,5 @@
     },
     "require-dev":{
         "phpunit/phpunit": "*",
-        "lstrojny/phpunit-function-mocker": "*"
     }
 }
